@@ -199,7 +199,7 @@ func mathRandom(L *LState) int {
 }
 
 func mathRandomseed(L *LState) int {
-	rand.Seed(L.CheckInt64(1))
+	rand.Seed(L.CheckConvertToInt64(1))
 	return 0
 }
 

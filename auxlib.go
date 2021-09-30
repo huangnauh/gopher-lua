@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -21,6 +22,19 @@ func (ls *LState) CheckInt(n int) int {
 	v := ls.Get(n)
 	if intv, ok := v.(LNumber); ok {
 		return int(intv)
+	}
+	ls.TypeError(n, LTNumber)
+	return 0
+}
+
+func (ls *LState) CheckConvertToInt64(n int) int64 {
+	v := ls.Get(n)
+	if intv, ok := v.(LNumber); ok {
+		return int64(intv)
+	} else if lv, ok := v.(LString); ok {
+		if intv, err := strconv.ParseInt(string(lv), 10, 64); err == nil {
+			return intv
+		}
 	}
 	ls.TypeError(n, LTNumber)
 	return 0
